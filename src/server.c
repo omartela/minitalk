@@ -23,7 +23,7 @@ static void	sig_handler(int signum, siginfo_t *info, void *context)
 {
 	static int	pid;
 	static int	i;
-	static char	c;
+	static char	c = 0;
 
 	(void)context;
 	if (info->si_pid)
@@ -36,6 +36,7 @@ static void	sig_handler(int signum, siginfo_t *info, void *context)
 		{
 			kill(pid, SIGUSR1);
 			pid = 0;
+			write(1, "\n", 1);
 			return ;
 		}
 		write(1, &c, 1);
@@ -49,6 +50,7 @@ int	main(void)
 	struct sigaction	sa;
 	char				*pid;
 
+	ft_memset(&sa, 0, sizeof(sa));
 	pid = ft_itoa(getpid());
 	ft_putstr_fd(pid, 1);
 	free(pid);

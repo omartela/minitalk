@@ -11,21 +11,20 @@
 /* ************************************************************************** */
 #include "../includes/minitalk.h"
 
-int	g_receiver;
+int	g_receiver = 0;
 
-void	sig_handler(int signum)
+static void	sig_handler(int signum)
 {
-	static int	i;
+	static int	i = 0;
 
 	g_receiver = 1;
 	if (signum == SIGUSR2)
 		++i;
 	else if (signum == SIGUSR1)
-	{
-	}
+		ft_putstr_fd("Bytes received so far \n", i / 8);
 }
 
-int	char_to_bin(char c, int pid)
+static int	char_to_bin(char c, int pid)
 {
 	int	itr;
 	int	bit_index;
@@ -33,6 +32,7 @@ int	char_to_bin(char c, int pid)
 	bit_index = 7;
 	while (bit_index >= 0)
 	{
+		itr = 0;
 		if ((c >> bit_index) & 1)
 			kill(pid, SIGUSR1);
 		else
@@ -59,17 +59,19 @@ int	main(int argc, char *argv[])
 	int					byte_index;
 	int					pid;
 
+	ft_memset(&sa, 0, sizeof(sa));
+	byte_index = 0;
 	if (argc == 3)
 	{
 		pid = ft_atoi(argv[1]);
 		sigemptyset(&sa.sa_mask);
 		sa.sa_flags = SA_RESTART;
-		sa.sa_sigaction = sig_handler;
+		sa.sa_handler = sig_handler;
 		if (sigaction(SIGUSR1, &sa, NULL) == -1)
 			return (1);
 		if (sigaction(SIGUSR2, &sa, NULL) == -1)
 			return (1);
-		while (argv[2][byte_index++])
+		while (argv[2][byte_index])
 			char_to_bin(argv[2][byte_index++], pid);
 		char_to_bin('\0', pid);
 	}
