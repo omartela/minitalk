@@ -6,7 +6,7 @@
 /*   By: omartela <omartela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 15:50:33 by omartela          #+#    #+#             */
-/*   Updated: 2024/07/31 17:03:49 by omartela         ###   ########.fr       */
+/*   Updated: 2024/08/02 08:21:55 by omartela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/minitalk.h"
@@ -21,13 +21,15 @@ static void	bin_to_char(int signum, char *c)
 
 static void	sig_handler(int signum, siginfo_t *info, void *context)
 {
-	static int	pid;
+	static int	pid = 0;
 	static int	i;
 	static char	c = 0;
 
 	(void)context;
-	if (info->si_pid)
+	if (pid == 0)
 		pid = info->si_pid;
+	if (info->si_pid != pid && pid != 0)
+		return ;
 	bin_to_char(signum, &c);
 	if (++i == 8)
 	{
