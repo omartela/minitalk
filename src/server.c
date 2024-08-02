@@ -28,19 +28,16 @@ static void	sig_handler(int signum, siginfo_t *info, void *context)
 	(void)context;
 	if (pid == 0)
 		pid = info->si_pid;
-	if (info->si_pid != pid && pid != 0)
+	if (info->si_pid != pid)
 		return ;
 	bin_to_char(signum, &c);
 	if (++i == 8)
 	{
 		i = 0;
-		if (!c)
+		if (c == '\0')
 		{
-			ft_putstr_fd(ft_itoa(pid), 1);
-			write(1, "\n", 1);
 			kill(pid, SIGUSR1);
 			pid = 0;
-			ft_putstr_fd("end of message", 1);
 			write(1, "\n", 1);
 			return ;
 		}

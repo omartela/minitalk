@@ -21,7 +21,7 @@ static void	sig_handler(int signum)
 	if (signum == SIGUSR2)
 		++i;
 	else if (signum == SIGUSR1)
-		ft_putstr_fd("Bytes received so far \n", i / 8);
+		ft_putstr_fd("Message received \n", 1);
 }
 
 static int	char_to_bin(char c, int pid)
