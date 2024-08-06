@@ -54,6 +54,8 @@ int	main(void)
 
 	ft_memset(&sa, 0, sizeof(sa));
 	pid = ft_itoa(getpid());
+	if (!pid)
+		return (0);
 	ft_putstr_fd(pid, 1);
 	free(pid);
 	write(1, "\n", 1);
