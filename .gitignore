@@ -1,0 +1,27 @@
+# Compiled binaries
+client
+server
+
+# Object files
+*.o
+src/*.o
+src/libft/*.o
+
+# Library files
+*.a
+src/libft/libft.a
+
+# libft bonus marker
+src/libft/.bonus
+
+# macOS
+.DS_Store
+
+# Editor files
+.vscode/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
